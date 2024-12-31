@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+</head>
+<body>
+    <h1>Today's Menu</h1>
+    <div id="menu-container">
+        <!-- Dynamic content will be loaded here -->
+    </div>
+
+    <script>
+        // Fetch the menu from the backend API
+        fetch('https://your-backend-domain.com/get-menu')
+            .then(response => response.json())
+            .then(data => {
+                const menuContainer = document.getElementById('menu-container');
+                const menu = data.menu;
+
+                // Dynamically populate the menu items
+                if (menu && menu.length) {
+                    menu.forEach(row => {
+                        const item = document.createElement('div');
+                        item.innerHTML = `<strong>${row[0]}</strong> - ${row[1]} - ${row[2]}`;
+                        menuContainer.appendChild(item);
+                    });
+                } else {
+                    menuContainer.innerHTML = 'No menu available for today.';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching menu:', error);
+                document.getElementById('menu-container').innerHTML = 'Error loading menu.';
+            });
+    </script>
+</body>
+</html>
